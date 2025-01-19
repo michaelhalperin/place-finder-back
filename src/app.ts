@@ -26,11 +26,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/questionnaire", questionnaireRoutes);
 app.use("/auth", authRoutes);
 
-// Health check
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
 app.use(errorHandler);
 connectDB();
 

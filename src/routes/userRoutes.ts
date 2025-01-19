@@ -16,11 +16,12 @@ router.get('/:userId', authMiddleware, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-
+    console.log(user);
     res.json({
       _id: user._id,
       email: user.email,
       name: user.name,
+      image: user.image,
       address: user.address,
       preferences: user.preferences || {},
       favorites: user.favorites || []
