@@ -9,24 +9,40 @@ export interface IUser extends Document {
   image: string;
   preferences: Record<string, any>;
   favorites: any[];
+  friends: any[];
   settings: Record<string, any>;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
+
+// ... existing code ...
 
 const userSchema = new Schema<IUser>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   name: { type: String, required: true },
   address: { type: String },
-  image: { type: String },
+  image: { type: String, default: '' },
   preferences: { type: Map, of: Schema.Types.Mixed, default: {} },
-  favorites: [{ type: Schema.Types.Mixed, default: [] }],
   settings: {
-    type: Map,
-    of: Schema.Types.Mixed,
-    default: {},
+    type: {
+      savedPlaces: [
+        {
+          latitude: Number,
+          longitude: Number,
+          title: String,
+        },
+      ],
+      friends: [Schema.Types.Mixed],
+    },
+    default: {
+      savedPlaces: [],
+      friends: [],
+    },
   },
 });
+
+// ... existing code ...
+
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

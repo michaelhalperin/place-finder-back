@@ -6,15 +6,14 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, name, address } = req.body;
+    const { email, password, name } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    const user = new User({ email, password, name, address });
+    const user = new User({ email, password, name });
     await user.save();
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
@@ -33,7 +32,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Email or password are incorrect" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
