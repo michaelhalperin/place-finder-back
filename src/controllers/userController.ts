@@ -30,6 +30,13 @@ export const userController = {
             image,
           },
         };
+      } else if (action === "updatePreferences") {
+        const { preferences } = req.body;
+        update = {
+          $set: {
+            preferences,
+          },
+        };
       } else {
         return res.status(400).json({ message: "Invalid action specified" });
       }

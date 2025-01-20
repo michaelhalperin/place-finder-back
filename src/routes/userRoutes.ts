@@ -6,7 +6,12 @@ import { User } from "../models/User";
 const router = express.Router();
 
 router.put("/settings/:userId", authMiddleware, userController.updateSettings);
-router.delete("/settings/:userId", authMiddleware, userController.deleteSavedPlace);
+
+router.delete(
+  "/settings/:userId/:placeId",
+  authMiddleware,
+  userController.deleteSavedPlace
+);
 
 router.get("/:userId", authMiddleware, async (req, res) => {
   try {
